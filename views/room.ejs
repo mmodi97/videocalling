@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Document</title>
+   <script>
+      const ROOM_ID = "<%= roomId %>"
+      
+   </script>
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+   <script defer src="https://unpkg.com/peerjs@1.3.1/dist/peerjs.min.js"></script>
+   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+   <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+   <script src="/socket.io/socket.io.js" defer></script>
+   <link rel="stylesheet" href="style.css">
+   <script src="https://kit.fontawesome.com/c939d0e917.js"></script>
+   <script src="script.js" defer></script>
+   <style>
+      #video-grid{
+         display: flex;
+         justify-content: center;
+         flex-wrap: wrap;
+      }
+      video{
+         height:350px;
+         width: 400px;
+         object-fit: cover;
+         padding: 8px;
+       
+      }
+      
+      /* The Modal (background) */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  padding-top: 100px; /* Location of the box */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content */
+.modal-content {
+  background-color: #fefefe;
+  margin: auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+}
+
+/* The Close Button */
+.close {
+  color: #aaaaaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+
+@media screen and (max-width: 500px) {
+
+  video{
+         height:175px;
+         width: 200px;
+       
+      }
+}
+
+
+
+
+
+
+   </style>
+
+ 
+</head>
+<body>
+   <div class="main">
+      <div class="main__left">
+         <div class="main__videos">
+            <div id="video-grid" style="display:none;">
+      
+            </div>
+         </div>
+         <div class="main__controls">
+            <div class="main__controls__block">
+               <div onclick="muteUnmute()" class="main__controls__button main__mute_button">
+                  <i class="fas fa-microphone"></i>
+                  <span>Mute</span>
+               </div>
+               <div onclick="playStop()" class="main__controls__button main__video_button" >
+                  <i class="fas fa-video"></i>
+                  <span>Stop Video</span>
+               </div>
+               <div class="main__controls__button" onclick="chatbox()">
+                  <i class="fas fa-comment-alt"></i>
+                  <span>Chat</span>
+               </div>
+               <div class="main__controls__button" onclick="leaveMeeting()">
+                  <i class="fas fa-sign-out-alt"></i>
+                  <span class="leave_meeting">Leave Meeting</span>
+               </div>
+            </div>
+            <!--div class="main__controls__block">
+               <div class="main__controls__button">
+                  <i class="fas fa-shield-alt"></i>
+                  <span>Security</span>
+               </div>
+               <div class="main__controls__button">
+                  <i class="fas fa-user-friends"></i>
+                  <span>Participants</span>
+               </div>
+               
+            </div>
+            <div class="main__controls__block" onclick="leaveMeeting()">
+               <div class="main__controls__button">
+                  <i class="fas fa-sign-out-alt"></i>
+                  <span class="leave_meeting">Leave Meeting</span>
+               </div>
+            </div-->
+         </div>
+      </div>
+      <div class="main__right">
+         <div class="main__header">
+            <h6>Chat</h6>
+         </div>
+         <div class="main__chat_window">
+            <ul class="messages">
+               
+            </ul>
+
+         </div>
+         <div class="main__message_container">
+            <input id="chat_message" type="text" placeholder="Type message here...">
+         </div>
+      </div>
+      <div id="myModal" class="modal" style="display: none;">
+
+        <!-- Modal content -->
+        <div class="modal-content">
+      
+         <form>
+          Enter your name : <input type="text" id="username" />
+          <input type="button" value="Submit" onclick="getUsername()"/>
+         </form>
+        </div>
+      
+      </div>
+
+      <div id="myModal2" class="modal" style="display: none;">
+
+         <!-- Modal content -->
+         <div class="modal-content">
+       
+        <h2>Thank you For the meeeting</h2>
+       
+       </div>
+   </div>
+
+   <script>
+     var modal = document.getElementById("myModal");
+
+modal.style.display = "block";
+var model2=document.getElementById("myModal2");
+
+   </script>
+
+  
+</body>
+</html>
