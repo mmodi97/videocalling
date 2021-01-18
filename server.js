@@ -1,11 +1,23 @@
-const express = require('express')
+const express = require('express');
+const fstat = require('fs');
 const app = express()
+const server = require('https')
+const path=require('path');
 // const cors = require('cors')
 // app.use(cors())
-const server = require('http').Server(app)
-const io = require('socket.io')(server)
+
+
+
+const sslServer=server.createServer({
+
+  key:fstat.readFileSync(path.join(__dirname,'cert','key.pem')),
+  cert:fstat.readFileSync(path.join(__dirname,'cert','cert.pem'))
+
+},app)
+
+const io = require('socket.io')(sslServer)
 const { ExpressPeerServer } = require('peer');
-const peerServer = ExpressPeerServer(server, {
+const peerServer = ExpressPeerServer(sslServer, {
   debug: true
 });
 const { v4: uuidV4 } = require('uuid')
@@ -39,4 +51,4 @@ io.on('connection', socket => {
   })
 })
 
-server.listen(process.env.PORT||3030)
+sslServer.listen(3060,()=>console.log("connected"));
